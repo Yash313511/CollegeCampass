@@ -65,14 +65,20 @@ export default async function HomePage() {
       <section className="bg-white border-b border-slate-200 py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl space-y-5">
-            {/* Main Headline - Bold, Direct & Crystal Clear */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.12]">
-              Find the Right College with Real Fees, Cutoffs &amp; Placements.
+            {/* Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-800 text-xs font-semibold">
+              <Compass className="h-3.5 w-3.5 text-slate-700" />
+              <span>India&apos;s College Discovery & Decision Platform</span>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+              Discover, compare, and decide your future college with real data.
             </h1>
 
             {/* Sub-headline */}
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl">
-              Search 76+ top institutions across India, compare key metrics side-by-side, and predict your admission chances using verified entrance exam cutoffs.
+              Make structured admission choices based on verified tuition fee ranges, average campus placement packages, official exam cutoffs, and genuine student reviews.
             </p>
 
             {/* Search Bar Direct Trigger */}

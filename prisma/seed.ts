@@ -471,79 +471,76 @@ async function main() {
   let courseCount = 0;
   let cutoffCount = 0;
   let reviewCount = 0;
+  const MAX_COLLEGES = 20;
 
   for (const template of COLLEGE_TEMPLATES) {
-    const [feesMin, feesMax] = getFeesRange(template.tier, template.type);
-    const placement = getPlacementData(template.tier);
-    const rating = getRating(template.tier);
-    const establishedYear = getEstablishedYear(template.tier);
-    const numReviews = rand(5, 25);
+  if (collegeCount >= MAX_COLLEGES) {
+    console.log(`  Reached max of ${MAX_COLLEGES} colleges, stopping seed.`);
+    break;
+  }
+  const [feesMin, feesMax] = getFeesRange(template.tier, template.type);
+  const placement = getPlacementData(template.tier);
+  const rating = getRating(template.tier);
+  const establishedYear = getEstablishedYear(template.tier);
+  const numReviews = rand(5, 25);
 
-    const college = await prisma.college.create({
+  const college = await prisma.college.create({
+    data: {
+      name: template.name,
+      slug: slug(template.name),
+      description: generateDescription(template.name, template.city, template.state, establishedYear, template.type),
+      city: template.city,
+      state: template.state,
+      type: template.type,
+      establishedYear,
+      affiliation: pick(AFFILIATIONS),
+      accreditation: pick(ACCREDITATIONS),
+      website: `https://www.${slug(template.name)}.ac.in`,
+      rating,
+      reviewCount: numReviews,
+      feesMin,
+      feesMax,
+      avgPackage: placement.avg,
+      highestPackage: placement.highest,
+      placementRate: placement.rate,
+    },
+  });
+  console.log(`  Created college ${college.name}`);
+  collegeCount++;
+
+  // Create courses
+  const courses = getCoursesForStreams(template.streams, (feesMin + feesMax) / 2);
+  for (const course of courses) {
+    await prisma.course.create({
+      data: { ...course, collegeId: college.id },
+    });
+    courseCount++;
+  }
+
+  // Create cutoff data (only for engineering)
+  if (template.streams.includes("Engineering")) {
+    const cutoffs = getCutoffData(template.name, template.state, template.tier, courses);
+    for (const cutoff of cutoffs) {
+      await prisma.cutoffData.create({ data: { ...cutoff, collegeId: college.id } });
+      cutoffCount++;
+    }
+  }
+
+  // Create reviews
+  const reviewsToCreate = rand(3, 8);
+  for (let r = 0; r < reviewsToCreate; r++) {
+    await prisma.review.create({
       data: {
-        name: template.name,
-        slug: slug(template.name),
-        description: generateDescription(template.name, template.city, template.state, establishedYear, template.type),
-        city: template.city,
-        state: template.state,
-        type: template.type,
-        establishedYear,
-        affiliation: pick(AFFILIATIONS),
-        accreditation: pick(ACCREDITATIONS),
-        website: `https://www.${slug(template.name)}.ac.in`,
-        rating,
-        reviewCount: numReviews,
-        feesMin,
-        feesMax,
-        avgPackage: placement.avg,
-        highestPackage: placement.highest,
-        placementRate: placement.rate,
+        rating: rand(3, 5),
+        title: pick(REVIEW_TITLES),
+        comment: pick(REVIEW_COMMENTS),
+        userId: demoUser.id,
+        collegeId: college.id,
       },
     });
-
-    // Create courses
-    const courses = getCoursesForStreams(template.streams, (feesMin + feesMax) / 2);
-    for (const course of courses) {
-      await prisma.course.create({
-        data: {
-          ...course,
-          collegeId: college.id,
-        },
-      });
-      courseCount++;
-    }
-
-    // Create cutoff data (only for engineering)
-    if (template.streams.includes("Engineering")) {
-      const cutoffs = getCutoffData(template.name, template.state, template.tier, courses);
-      for (const cutoff of cutoffs) {
-        await prisma.cutoffData.create({
-          data: {
-            ...cutoff,
-            collegeId: college.id,
-          },
-        });
-        cutoffCount++;
-      }
-    }
-
-    // Create reviews
-    const reviewsToCreate = rand(3, 8);
-    for (let r = 0; r < reviewsToCreate; r++) {
-      await prisma.review.create({
-        data: {
-          rating: rand(3, 5),
-          title: pick(REVIEW_TITLES),
-          comment: pick(REVIEW_COMMENTS),
-          userId: demoUser.id,
-          collegeId: college.id,
-        },
-      });
-      reviewCount++;
-    }
-
-    collegeCount++;
+    reviewCount++;
   }
+
 
   console.log(`\n✅ Seed complete!`);
   console.log(`   ${collegeCount} colleges`);
