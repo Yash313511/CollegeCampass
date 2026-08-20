@@ -1,0 +1,152 @@
+// Prisma schema for CollegeCompass
+// PostgreSQL on Neon
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
+}
+
+// ─── Auth ────────────────────────────────────────────────────────
+
+model User {
+  id             String         @id @default(cuid())
+  name           String
+  email          String         @unique
+  hashedPassword String
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  reviews        Review[]
+  savedColleges  SavedCollege[]
+}
+
+// ─── Core ────────────────────────────────────────────────────────
+
+enum CollegeType {
+  GOVERNMENT
+  PRIVATE
+  DEEMED
+  AUTONOMOUS
+}
+
+model College {
+  id              String      @id @default(cuid())
+  name            String
+  slug            String      @unique
+  description     String
+  city            String
+  state           String
+  type            CollegeType
+  establishedYear Int
+  affiliation     String
+  website         String?
+  accreditation   String?
+
+  // Metrics
+  rating          Float       @default(0)
+  reviewCount     Int         @default(0)
+
+  // Fees (annual, in INR)
+  feesMin         Int
+  feesMax         Int
+
+  // Placements (in LPA)
+  avgPackage      Float?
+  highestPackage  Float?
+  placementRate   Int?        // percentage 0-100
+
+  // Media
+  logoUrl         String?
+  imageUrl        String?
+
+  // Relations
+  courses         Course[]
+  reviews         Review[]
+  savedBy         SavedCollege[]
+  cutoffs         CutoffData[]
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([state])
+  @@index([city])
+  @@index([type])
+  @@index([rating])
+  @@index([avgPackage])
+  @@index([feesMin])
+  @@index([feesMax])
+}
+
+model Course {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String
+  duration    String  // e.g. "4 Years"
+  stream      String  // Engineering, Management, Medical, etc.
+  fees        Int     // per year in INR
+  eligibility String?
+
+  collegeId   String
+  college     College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime @default(now())
+
+  @@index([stream])
+  @@index([collegeId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5
+  title     String
+  comment   String
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  collegeId String
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([collegeId])
+  @@index([userId])
+}
+
+model SavedCollege {
+  id        String   @id @default(cuid())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  collegeId String
+  college   College  @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, collegeId])
+  @@index([userId])
+}
+
+// ─── Predictor ───────────────────────────────────────────────────
+
+model CutoffData {
+  id          String  @id @default(cuid())
+  exam        String  // JEE Main, MHT-CET, KCET, etc.
+  category    String  // General, OBC, SC, ST, EWS
+  course      String  // Course name
+  closingRank Int     // Last admitted rank
+  year        Int     // Admission year
+
+  collegeId   String
+  college     College @relation(fields: [collegeId], references: [id], onDelete: Cascade)
+
+  @@index([exam, category])
+  @@index([collegeId])
+  @@index([closingRank])
+}
