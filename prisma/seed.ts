@@ -540,7 +540,7 @@ async function main() {
     });
     reviewCount++;
   }
-
+}
 
   console.log(`\n✅ Seed complete!`);
   console.log(`   ${collegeCount} colleges`);
