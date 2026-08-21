@@ -22,6 +22,14 @@ export const metadata: Metadata = {
     "MHT-CET",
   ],
   authors: [{ name: "CollegeCompass Team" }],
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.png",
+  },
 };
 
 export const viewport: Viewport = {
