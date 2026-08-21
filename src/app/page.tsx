@@ -181,9 +181,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ─── 3 Step Decision Framework ───────────────────────────── */}
+      {/* ─── 4 Step Decision Framework ───────────────────────────── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Step 1: Discover */}
           <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-3 shadow-2xs">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-900 font-bold">
@@ -240,6 +240,26 @@ export default async function HomePage() {
               className="inline-flex items-center gap-1 text-xs font-semibold text-slate-900 hover:text-blue-600 pt-1 transition-colors"
             >
               <span>Run Admission Predictor</span>
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+
+          {/* Step 4: Scholarships */}
+          <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-3 shadow-2xs">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-900 font-bold">
+              <GraduationCap className="h-5 w-5" />
+            </div>
+            <h3 className="text-base font-bold text-slate-900">
+              4. Explore Scholarships
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Browse 35+ government, institutional, and private scholarships with eligibility details, amounts, and direct apply links.
+            </p>
+            <Link
+              href="/scholarships"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-slate-900 hover:text-blue-600 pt-1 transition-colors"
+            >
+              <span>Find Scholarships</span>
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>

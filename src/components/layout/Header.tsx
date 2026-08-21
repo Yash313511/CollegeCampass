@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Compass, Bookmark, Scale, Sparkles, Menu, X, LogOut, User, Search } from "lucide-react";
+import { Compass, Bookmark, Scale, Sparkles, Menu, X, LogOut, User, Search, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { getInitials } from "@/lib/utils";
 
@@ -20,6 +20,7 @@ export function Header() {
     { href: "/colleges", label: "Colleges", icon: Compass },
     { href: "/compare", label: "Compare", icon: Scale },
     { href: "/predictor", label: "Predictor", icon: Sparkles },
+    { href: "/scholarships", label: "Scholarships", icon: GraduationCap },
     { href: "/saved", label: "Saved", icon: Bookmark, authRequired: true },
   ];
 

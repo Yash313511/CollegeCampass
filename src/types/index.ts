@@ -141,3 +141,22 @@ export interface FilterOptions {
   types: CollegeType[];
   exams: string[];
 }
+
+// ─── Scholarships ───────────────────────────────────────────────
+
+export interface ScholarshipListItem {
+  id: string;
+  name: string;
+  slug: string;
+  provider: string;
+  description: string;
+  type: string;
+  level: string;
+  amount: string;
+  eligibility: string;
+  deadline: string | null;
+  applicationLink: string | null;
+  streams: string[];
+  categories: string[];
+}
+
