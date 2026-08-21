@@ -424,8 +424,37 @@ export function CollegeDetailClient({
               </p>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs sm:text-sm">
+            {/* Mobile: Card layout */}
+            <div className="sm:hidden divide-y divide-slate-100">
+              {college.courses.map((course) => (
+                <div key={course.id} className="p-4 space-y-2">
+                  <div className="flex items-start justify-between gap-2">
+                    <h4 className="text-sm font-semibold text-slate-900 flex-1">{course.name}</h4>
+                    <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[11px] font-medium shrink-0">
+                      {course.stream}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <span className="text-slate-500 block">Duration</span>
+                      <span className="font-medium text-slate-800">{course.duration}</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-500 block">Annual Fees</span>
+                      <span className="font-bold text-slate-900">{formatCurrency(course.fees)}</span>
+                    </div>
+                  </div>
+                  <div className="text-xs">
+                    <span className="text-slate-500 block">Eligibility</span>
+                    <span className="text-slate-700">{course.eligibility || "10+2 with relevant subjects"}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop: Table layout */}
+            <div className="hidden sm:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-semibold uppercase text-[11px] tracking-wider">
                   <tr>
                     <th className="py-3.5 px-5">Course Name</th>

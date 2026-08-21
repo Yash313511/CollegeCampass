@@ -20,17 +20,17 @@ export function CompareBar() {
     >
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
         {/* Header & List of Selected */}
-        <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+        <div className="flex items-center gap-3 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 scrollbar-hide">
           <div className="flex items-center gap-1.5 text-xs font-bold text-slate-200 shrink-0">
             <Scale className="h-4 w-4 text-blue-400" />
             <span>Compare ({selectedColleges.length}/3)</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto">
             {selectedColleges.map((college) => (
               <div
                 key={college.id}
-                className="flex items-center gap-1.5 bg-slate-800 border border-slate-700 text-white text-xs px-2.5 py-1.5 rounded-lg max-w-[180px] sm:max-w-[200px] shrink-0"
+                className="flex items-center gap-1.5 bg-slate-800 border border-slate-700 text-white text-xs px-2.5 py-1.5 rounded-lg max-w-[140px] sm:max-w-[200px] shrink-0"
               >
                 <span className="truncate font-medium">{college.name}</span>
                 <button

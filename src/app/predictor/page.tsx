@@ -101,7 +101,7 @@ export default function PredictorPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Form Card */}
-        <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs space-y-5 sticky top-20">
+        <div className="lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-6 shadow-2xs space-y-5 lg:sticky lg:top-20">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
               <Sliders className="h-4 w-4 text-slate-700" />
@@ -259,7 +259,7 @@ export default function PredictorPage() {
               <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
                 Fill in your entrance exam rank and preferences on the left to see instant, explainable recommendations sorted by match percentage.
               </p>
-              <div className="flex items-center justify-center gap-6 pt-3 text-xs text-slate-600 font-medium">
+              <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 pt-3 text-xs text-slate-600 font-medium">
                 <span className="flex items-center gap-1.5">
                   <CheckCircle className="h-4 w-4 text-emerald-600" />
                   Cutoff Database

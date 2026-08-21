@@ -82,3 +82,12 @@ input, select, textarea, button, optgroup, option {
     scroll-behavior: auto !important;
   }
 }
+
+/* Hide scrollbar but keep scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

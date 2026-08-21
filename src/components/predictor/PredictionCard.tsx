@@ -81,7 +81,7 @@ export function PredictionCard({ prediction, rankIndex }: PredictionCardProps) {
       </div>
 
       {/* Quick Metrics */}
-      <div className="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50 p-3 rounded-lg text-xs text-slate-700">
         <div>
           <span className="text-[10px] text-slate-400 uppercase font-semibold block">
             Annual Fees

@@ -92,7 +92,7 @@ export function CollegePickerModal({
                     <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">
                       {college.name}
                     </h4>
-                    <div className="flex items-center gap-3 text-[11px] text-slate-500">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] text-slate-500">
                       <span className="flex items-center gap-1">
                         <MapPin className="h-3 w-3 text-slate-400" />
                         {college.city}, {college.state}
