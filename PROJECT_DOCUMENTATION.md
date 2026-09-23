@@ -170,10 +170,25 @@ npx prisma migrate dev
 # 5. Seed database with sample colleges, courses, and cutoffs
 npx prisma db seed
 
-# 6. Start development server
+# 6. Seed Pune Engineering CAP Round Dataset (56 Colleges, 232 Choice Codes, 1002 Cutoffs)
+npm run seed:cap
+
+# 7. Start development server
 npm run dev
 # Open http://localhost:3000 in your browser
 ```
+
+---
+
+## 10. Maharashtra DTE CAP Round 2025 Module (Pune Region)
+
+### 10.1 Module Overview
+Dedicated CAP Round Preference List Builder (`/cap-round`) for Maharashtra State CET Cell engineering admissions:
+- **Comprehensive Database**: 56 Pune engineering colleges, 232 9-digit DTE Choice Codes, and 1,002 caste cutoff records.
+- **Multi-Mode Merit Input**: Percentile (%), MHT-CET Score (out of 200) with automatic percentile translation curve, and State General Merit Rank.
+- **15 Caste Categories**: GOPEN, LOPEN, GOBC, LOBC, GSC, LSC, GST, LST, GVJ/DT, GNT1/2/3, EWS, TFWS, AI.
+- **Top 20 Recommendation Engine**: 3-tiered strategic sequencing (5 Ambitious Dream + 10 Realistic Target + 5 Safe Backup choices).
+- **1-Click PDF Export**: Generates official DTE-styled preference sheet PDF with candidate credentials, roll number, choice codes, and CAP counseling guidelines.
 
 ---
 

@@ -12,6 +12,8 @@ import {
   GraduationCap,
   Building2,
   FileCheck2,
+  FileText,
+  CheckCircle2,
 } from "lucide-react";
 import { CollegeCard } from "@/components/college/CollegeCard";
 import { Button } from "@/components/ui/Button";
@@ -176,6 +178,63 @@ export default async function HomePage() {
             <div className="flex items-baseline gap-2">
               <span className="text-2xl sm:text-3xl font-extrabold text-slate-900">800+</span>
               <span className="text-xs font-semibold text-slate-500">JEE & CET</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Pune Region CAP Round 2025 Feature Banner ─────────────── */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 p-6 sm:p-8 text-white shadow-xl border border-slate-700/60">
+          <div className="absolute top-0 right-0 -mt-10 -mr-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-1/3 -mb-10 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="space-y-3.5 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-300 text-xs font-bold tracking-wide">
+                <span className="flex h-2 w-2 rounded-full bg-orange-400 animate-pulse" />
+                <span>MAHARASHTRA DTE CAP ROUND 2025 • PUNE REGION</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                Dedicated Pune College Preference List & PDF Exporter
+              </h2>
+
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                Filter across 26+ Pune Engineering Colleges by your entrance marks/percentile & caste category (OPEN, OBC, SC, ST, EWS, TFWS). Build your priority option form with official 9-digit DTE choice codes and export as a PDF ready for submission!
+              </p>
+
+              <div className="flex flex-wrap gap-2 pt-1 text-xs text-slate-300">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 backdrop-blur-xs font-medium">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-orange-400" />
+                  COEP, PICT, VIT, PCCOE & 22+ more
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 backdrop-blur-xs font-medium">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />
+                  Official 9-digit DTE Choice Codes
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 backdrop-blur-xs font-medium">
+                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
+                  Instant CET Cell–Style PDF Export
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
+              <Link href="/cap-round">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold border-0 shadow-lg shadow-orange-500/25 transition-all text-sm"
+                  rightIcon={<ArrowRight className="h-4 w-4" />}
+                >
+                  Build CAP Preference List
+                </Button>
+              </Link>
+              <div className="flex items-center justify-center gap-1 text-[11px] text-slate-400">
+                <FileText className="h-3.5 w-3.5 text-slate-400" />
+                <span>Free tool • No login required to export PDF</span>
+              </div>
             </div>
           </div>
         </div>

@@ -21,6 +21,7 @@ model User {
 
   reviews        Review[]
   savedColleges  SavedCollege[]
+  capPreferences CapPreferenceList[]
 }
 
 // ─── Core ────────────────────────────────────────────────────────
@@ -187,3 +188,100 @@ model Scholarship {
   @@index([type])
   @@index([level])
 }
+
+// ─── Maharashtra CAP Round ──────────────────────────────────────
+
+model CapCollege {
+  id              String      @id @default(cuid())
+  collegeCode     String      @unique // 4-digit DTE Code, e.g. "6006", "6271"
+  name            String
+  slug            String      @unique
+  status          String      // e.g. "Government Autonomous", "Unaided Autonomous", "Unaided Private"
+  region          String      @default("Pune")
+  district        String      @default("Pune")
+  university      String      // e.g. "Savitribai Phule Pune University"
+  address         String
+  establishedYear Int
+  website         String?
+  feesAnnual      Int         // Approx annual fees in INR
+  avgPackage      Float?      // in LPA
+  highestPackage  Float?      // in LPA
+  rating          Float       @default(4.0)
+  accreditation   String?     // e.g. "NAAC A++", "NBA Accredited"
+  imageUrl        String?
+
+  courses         CapCourse[]
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  @@index([collegeCode])
+  @@index([region])
+  @@index([status])
+}
+
+model CapCourse {
+  id           String      @id @default(cuid())
+  choiceCode   String      @unique // 9-digit Choice Code e.g. "600624510"
+  courseName   String      // e.g. "Computer Engineering"
+  stream       String      @default("Engineering")
+  intake       Int         @default(60)
+  shift        String      @default("First Shift")
+  status       String      @default("Autonomous")
+
+  capCollegeId String
+  capCollege   CapCollege  @relation(fields: [capCollegeId], references: [id], onDelete: Cascade)
+
+  cutoffs      CapCutoff[]
+
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([choiceCode])
+  @@index([capCollegeId])
+  @@index([courseName])
+}
+
+model CapCutoff {
+  id                                String    @id @default(cuid())
+  category                          String    // GOPEN, LOPEN, GOBC, LOBC, GSC, LSC, GST, LST, GVJ, GNT1, GNT2, GNT3, EWS, TFWS, AI
+  homeUniversityPercentile          Float?    // HU Cutoff Percentile
+  homeUniversityRank                Int?      // HU Cutoff Rank
+  otherThanHomeUniversityPercentile Float?    // OHU Cutoff Percentile
+  otherThanHomeUniversityRank       Int?      // OHU Cutoff Rank
+  stateLevelPercentile              Float?    // State Level / All India Cutoff Percentile
+  stateLevelRank                    Int?      // State Level / All India Cutoff Rank
+  round                             Int       @default(1) // 1, 2, or 3
+  year                              Int       @default(2024)
+
+  capCourseId                       String
+  capCourse                         CapCourse @relation(fields: [capCourseId], references: [id], onDelete: Cascade)
+
+  createdAt                         DateTime  @default(now())
+
+  @@index([category])
+  @@index([capCourseId])
+  @@index([round])
+}
+
+model CapPreferenceList {
+  id             String    @id @default(cuid())
+  title          String    @default("My MHT-CET CAP Preference List")
+  candidateName  String
+  applicationId  String?
+  category       String    // e.g. "OPEN", "OBC", "SC", "ST", "EWS", "TFWS"
+  percentile     Float
+  rank           Int?
+  homeUniversity String    @default("SPPU (Pune University)")
+  round          String    @default("CAP Round 1")
+  items          Json      // Array of preference choices with order, choiceCode, collegeName, courseName, cutoff, chance, notes
+  
+  userId         String?
+  user           User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId])
+}
+

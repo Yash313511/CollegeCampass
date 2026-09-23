@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Compass, Bookmark, Scale, Sparkles, Menu, X, LogOut, User, Search, GraduationCap } from "lucide-react";
+import { Compass, Bookmark, Scale, Sparkles, Menu, X, LogOut, User, Search, GraduationCap, FileText } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { getInitials } from "@/lib/utils";
 
@@ -21,6 +21,7 @@ export function Header() {
     { href: "/compare", label: "Compare", icon: Scale },
     { href: "/predictor", label: "Predictor", icon: Sparkles },
     { href: "/scholarships", label: "Scholarships", icon: GraduationCap },
+    { href: "/cap-round", label: "CAP Round", icon: FileText, highlight: true },
     { href: "/saved", label: "Saved", icon: Bookmark, authRequired: true },
   ];
 
@@ -50,15 +51,23 @@ export function Header() {
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                     isActive
                       ? "bg-slate-100 text-slate-900"
+                      : (link as { highlight?: boolean }).highlight
+                      ? "text-orange-600 hover:bg-orange-50 hover:text-orange-700"
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  <Icon className={`h-4 w-4 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
+                  <Icon className={`h-4 w-4 ${isActive ? "text-slate-900" : (link as { highlight?: boolean }).highlight ? "text-orange-500" : "text-slate-400"}`} />
                   <span>{link.label}</span>
+                  {(link as { highlight?: boolean }).highlight && !isActive && (
+                    <span className="ml-0.5 px-1 py-0.5 rounded text-[9px] font-bold bg-orange-100 text-orange-600 leading-none">
+                      PUNE
+                    </span>
+                  )}
                 </Link>
               );
             })}
           </nav>
+
         </div>
 
         {/* Right: Search / Actions / Auth */}
@@ -159,14 +168,23 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                  className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                     isActive
                       ? "bg-slate-100 text-slate-900"
+                      : (link as { highlight?: boolean }).highlight
+                      ? "text-orange-600 hover:bg-orange-50 hover:text-orange-700"
                       : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  <Icon className="h-4 w-4 text-slate-400" />
-                  <span>{link.label}</span>
+                  <div className="flex items-center gap-2.5">
+                    <Icon className={`h-4 w-4 ${isActive ? "text-slate-900" : (link as { highlight?: boolean }).highlight ? "text-orange-500" : "text-slate-400"}`} />
+                    <span>{link.label}</span>
+                  </div>
+                  {(link as { highlight?: boolean }).highlight && (
+                    <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-orange-100 text-orange-600">
+                      PUNE DTE
+                    </span>
+                  )}
                 </Link>
               );
             })}
