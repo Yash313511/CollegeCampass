@@ -55,8 +55,10 @@ graph TD
 | **Database** | **PostgreSQL 16** | Relational ACID store with strict foreign keys and multi-column indexes. |
 | **ORM** | **Prisma ORM** | Type-safe migrations, auto-generated TypeScript schema client. |
 | **Authentication**| **NextAuth.js (v5 Beta)** | Encrypted JWT cookies, credentials provider with `bcryptjs` 10 salt rounds. |
+| **AI Assistant** | **FastAPI (Python 3.11+)** | Intent classification, RAG grounding, multi-factor recommendation engine, LLM abstraction. |
 
 ---
+
 
 ## 🗄️ 3. Database Entity-Relationship (ER) Schema
 
@@ -177,6 +179,7 @@ $$\text{Match Score} = (S_{\text{rank}} \times 0.40) + (S_{\text{course}} \times
 | `GET` | `/api/colleges/[id]` | Full institutional profile with courses and reviews | Public |
 | `GET` | `/api/compare?ids=...` | Comparison payload for selected institutions | Public |
 | `POST` | `/api/predict` | Computes admission probability ranking | Public |
+| `POST` | `/api/chatbot` | AI Counselor query (Prisma enrichment + FastAPI proxy) | Public |
 | `POST` | `/api/auth/signup` | Student registration with bcrypt hashing | Public |
 | `POST` | `/api/auth/[...nextauth]` | Session login, token issuance, and logout | Public |
 | `GET` | `/api/saved-colleges` | User's shortlisted colleges list | Authenticated |
@@ -188,6 +191,7 @@ $$\text{Match Score} = (S_{\text{rank}} \times 0.40) + (S_{\text{course}} \times
 
 ## ⚡ 7. Local Setup & Quick Start
 
+### Frontend & API Gateway (Next.js)
 ```bash
 # 1. Clone the project repository
 git clone <repo-url>
@@ -197,19 +201,34 @@ cd college-compass
 npm install
 
 # 3. Configure local environment variables (.env)
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/collegecompass?schema=public"
-NEXTAUTH_SECRET="your-32-character-secret-key"
-NEXTAUTH_URL="http://localhost:3000"
+cp .env.example .env
 
-# 4. Run Prisma database migrations
+# 4. Run Prisma database migrations & seed
 npx prisma migrate dev
-
-# 5. Seed initial data (76 colleges, 448 courses, 880 cutoffs)
 npx prisma db seed
 
-# 6. Start the development server
+# 5. Start the Next.js development server
 npm run dev
 ```
+
+### AI Chatbot Service (FastAPI)
+```bash
+# In a separate terminal:
+cd chatbot-service
+
+# Create virtualenv and install dependencies
+python3 -m venv venv
+source venv/bin/activate
+pip install -e ".[dev]"
+
+# Configure environment (optional: set LLM_API_KEY)
+cp .env.example .env
+
+# Start FastAPI chatbot backend
+uvicorn app.main:app --reload --port 8000
+```
+Interactive API documentation available at `http://localhost:8000/docs`.
+
 
 ### 👤 Demo Credentials
 - **Email**: `demo@collegecompass.in`
